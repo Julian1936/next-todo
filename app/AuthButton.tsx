@@ -11,7 +11,7 @@ export default function AuthButton() {
 
   if (session?.user) {
     return (
-      <div>
+      <div className="user-message">
         <p>Signed in as {session.user.email}</p>
         <button onClick={() => signOut()}>Sign Out</button>
       </div>
