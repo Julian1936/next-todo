@@ -3,8 +3,15 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compare, hash } from "bcrypt";
 import { GraphQLClient, gql } from "graphql-request";
 
-const client = new GraphQLClient(process.env.HYGRAPH_ENDPOINT, {
-  header: { Authorization: `Bearer ${process.env.HYGRAPH_TOKEN}` },
+const hygraphEndpoint = process.env.HYGRAPH_ENDPOINT;
+const hygraphToken = process.env.HYGRAPH_TOKEN;
+
+if (!hygraphEndpoint || !hygraphToken) {
+  throw new Error("Missing HYGRAPH_ENDPOINT or HYGRAPH_TOKEN environment variables");
+}
+
+const client = new GraphQLClient(hygraphEndpoint, {
+  headers: { Authorization: `Bearer ${hygraphToken}` },
 });
 
 const GetUserByEmail = gql`
@@ -35,7 +42,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      authorize: async (credentials) => {
+      async authorize(credentials) {
+        // Credentials are potentially undefined/unknown
+        if (typeof credentials?.email !== "string" || typeof credentials?.password !== "string") {
+          return null;
+        }
         const { email, password } = credentials;
         const { user } = await client.request(GetUserByEmail, { email });
 
@@ -54,4 +65,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
 });
