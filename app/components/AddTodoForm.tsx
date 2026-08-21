@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 
-export default function AddTodoForm() {
+interface AddTodoFormProps {
+  onTodoAdded?: () => void;
+}
+
+export default function AddTodoForm({ onTodoAdded }: AddTodoFormProps) {
   const [todoTitle, setTodoTitle] = useState("");
   const [todoDetails, setTodoDetails] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -23,6 +27,7 @@ export default function AddTodoForm() {
       setTodoTitle("");
       setTodoDetails("");
       setStatus("idle");
+      onTodoAdded?.();
     } catch {
       setStatus("error");
     }

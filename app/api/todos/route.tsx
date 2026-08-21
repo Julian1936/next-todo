@@ -80,3 +80,35 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Failed to create todo" }, { status: 500 });
   }
 }
+
+export async function GET() {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
+  }
+
+  const userId = session.user.id;
+
+  try {
+    const data = await hygraphRequest(
+      `query GetTodos($userId: ID!) {
+          todos(
+            where: { todoUser: { id: $userId } }
+            stage: PUBLISHED
+            orderBy: createdAt_DESC
+          ) {
+            id
+            todoTitle
+            todoDetails
+            createdAt
+          }
+        }`,
+      { userId },
+    );
+
+    return NextResponse.json(data.todos, { status: 200 });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Failed to fetch todos" }, { status: 500 });
+  }
+}

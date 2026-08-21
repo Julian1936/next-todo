@@ -1,5 +1,5 @@
 import Link from "next/link";
-import AuthButton from "../AuthButton";
+import AuthButton from "./AuthButton";
 
 export default function Header() {
   return (
@@ -11,7 +11,7 @@ export default function Header() {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/about">About</Link>
+              <Link href="/todos">ToDos</Link>
             </li>
           </ul>
         </nav>
