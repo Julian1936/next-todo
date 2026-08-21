@@ -23,6 +23,7 @@ function fetchTodosRequest(): Promise<Todo[]> {
 export default function TodoList({ refreshKey }: TodoListProps) {
   const [todos, setTodos] = useState<Todo[] | null>(null);
   const [hasError, setHasError] = useState(false);
+  const [deleteingId, setDeletingID] = useState<string | null>(null);
 
   useEffect(() => {
     fetchTodosRequest()
@@ -34,6 +35,19 @@ export default function TodoList({ refreshKey }: TodoListProps) {
         setHasError(true);
       });
   }, [refreshKey]);
+
+  async function handleDelete(id: string) {
+    setDeletingID(id);
+    try {
+      const res = await fetch(`/api/todos/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Request Failed");
+      setTodos((current) => current && current.filter((todo) => todo.id !== id));
+    } catch {
+      setHasError(true);
+    } finally {
+      setDeletingID(null);
+    }
+  }
 
   const isLoading = todos === null && !hasError;
 
@@ -53,8 +67,13 @@ export default function TodoList({ refreshKey }: TodoListProps) {
     <ul>
       {todos!.map((todo) => (
         <li key={todo.id}>
-          <p>{todo.todoTitle}</p>
-          {todo.todoDetails && <p>{todo.todoDetails}</p>}
+          <div>
+            <p>{todo.todoTitle}</p>
+            {todo.todoDetails && <p>{todo.todoDetails}</p>}
+          </div>
+          <button onClick={() => handleDelete(todo.id)} disabled={deleteingId === todo.id}>
+            {deleteingId === todo.id ? "Deleting..." : "Delete"}
+          </button>
         </li>
       ))}
     </ul>
