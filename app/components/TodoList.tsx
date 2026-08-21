@@ -6,6 +6,7 @@ interface Todo {
   id: string;
   todoTitle: string;
   todoDetails?: string;
+  todoBy?: string;
   createdAt?: string;
 }
 
@@ -64,14 +65,15 @@ export default function TodoList({ refreshKey }: TodoListProps) {
   }
 
   return (
-    <ul>
+    <ul className="flex flex-col gap-2">
       {todos!.map((todo) => (
-        <li key={todo.id}>
+        <li key={todo.id} className="border rounded px-3 py-2 flex justify-between items-start gap-2">
           <div>
-            <p>{todo.todoTitle}</p>
-            {todo.todoDetails && <p>{todo.todoDetails}</p>}
+            <p className="font-medium">{todo.todoTitle}</p>
+            {todo.todoDetails && <p className="text-sm text-gray-600">{todo.todoDetails}</p>}
+            {todo.todoBy && <p className="text-sm text-gray-600">{new Date(todo.todoBy).toLocaleString()}</p>}
           </div>
-          <button onClick={() => handleDelete(todo.id)} disabled={deleteingId === todo.id}>
+          <button onClick={() => handleDelete(todo.id)} disabled={deleteingId === todo.id} className="text-sm text-red-500 border rounded px-2 py-1 shrink-0">
             {deleteingId === todo.id ? "Deleting..." : "Delete"}
           </button>
         </li>

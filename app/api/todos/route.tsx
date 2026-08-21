@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   }
 
   const userId = session.user.id;
-  const { todoTitle, todoDetails } = await req.json();
+  const { todoTitle, todoDetails, todoBy } = await req.json();
 
   if (!todoTitle || typeof todoTitle !== "string") {
     return NextResponse.json({ error: "todoTitle is required" }, { status: 400 });
@@ -33,15 +33,16 @@ export async function POST(req: NextRequest) {
 
   try {
     const createData = await hygraphRequest(
-      `mutation CreateTodo($todoTitle: String!, $todoDetails: String!, $userId: ID!) {
+      `mutation CreateTodo($todoTitle: String!, $todoDetails: String!, $todoBy: DateTime!, $userId: ID!) {
             createTodo(data: { 
               todoTitle: $todoTitle, 
               todoDetails: $todoDetails,
+              todoBy: $todoBy,
               todoUser: { connect: {id: $userId}} }){
                 id
             }
         }`,
-      { todoTitle, todoDetails: todoDetails ?? null, userId },
+      { todoTitle, todoDetails: todoDetails ?? null, todoBy, userId },
     );
 
     const id = createData.createTodo.id;
@@ -100,6 +101,7 @@ export async function GET() {
             id
             todoTitle
             todoDetails
+            todoBy
             createdAt
           }
         }`,

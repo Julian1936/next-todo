@@ -8,7 +8,7 @@ export default function AboutPage() {
 
   return (
     <>
-      <h1>About</h1>
+      <h1 className="text-2xl font-bold mb-5">Todos</h1>
       <AddTodoForm onTodoAdded={() => setRefreshKey((k) => k + 1)} />
       <TodoList refreshKey={refreshKey} />
     </>
