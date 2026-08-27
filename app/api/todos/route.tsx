@@ -114,3 +114,72 @@ export async function GET() {
     return NextResponse.json({ error: "Failed to fetch todos" }, { status: 500 });
   }
 }
+
+export async function PATCH(req: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
+  }
+
+  const userId = session.user.id;
+  const { id, todoTitle, todoDetails, todoBy } = await req.json();
+
+  if (!id || typeof id !== "string") {
+    return NextResponse.json({ error: "id is required" }, { status: 400 });
+  }
+
+  try {
+    const existing = await hygraphRequest(
+      `query GetTodo($id: ID!) {
+          todo(where: { id: $id }, stage: PUBLISHED) {
+            id
+            todoUser { id }
+          }
+        }`,
+      { id },
+    );
+
+    if (!existing.todo) {
+      return NextResponse.json({ error: "Todo not found" }, { status: 404 });
+    }
+    if (existing.todo.todoUser?.id !== userId) {
+      return NextResponse.json({ error: "Unauthorised" }, { status: 403 });
+    }
+
+    const data: Record<string, unknown> = {};
+    if (todoTitle !== undefined) data.todoTitle = todoTitle;
+    if (todoDetails !== undefined) data.todoDetails = todoDetails;
+    if (todoBy !== undefined) data.todoBy = todoBy;
+
+    if (Object.keys(data).length === 0) {
+      return NextResponse.json({ error: "No fields to update" }, { status: 400 });
+    }
+
+    await hygraphRequest(
+      `mutation UpdateTodo($id: ID!, $data: TodoUpdateInput!) {
+          updateTodo(where: { id: $id }, data: $data) {
+            id
+          }
+        }`,
+      { id, data },
+    );
+
+    const publishData = await hygraphRequest(
+      `mutation PublishTodo($id: ID!) {
+          publishTodo(where: { id: $id }, to: PUBLISHED) {
+            id
+            todoTitle
+            todoDetails
+            todoBy
+            createdAt
+          }
+        }`,
+      { id },
+    );
+
+    return NextResponse.json(publishData.publishTodo, { status: 200 });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Failed to update todo" }, { status: 500 });
+  }
+}
