@@ -87,6 +87,7 @@ export default function TodoCalendar() {
       setHasError(true);
     } finally {
       setDeletingID(null);
+      closeModal();
     }
   }
 

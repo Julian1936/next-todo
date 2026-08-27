@@ -1,29 +1,11 @@
-"use client";
-
-import Link from "next/link";
+import Navigation from "./navigation";
 import AuthButton from "./AuthButton";
-import { useSession } from "next-auth/react";
 
 export default function Header() {
-  const { data: session } = useSession();
   return (
     <>
       <header className="bg-gray-200 px-6 py-4 flex items-center justify-between">
-        <nav>
-          <ul className="flex items-center gap-3">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/about">About</Link>
-            </li>
-            {session?.user && (
-              <li>
-                <Link href="/profile">Profile</Link>
-              </li>
-            )}
-          </ul>
-        </nav>
+        <Navigation />
         <div className="account-menu">
           <AuthButton />
         </div>

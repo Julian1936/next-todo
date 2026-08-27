@@ -3,8 +3,8 @@ import PageTitle from "../components/PageTitle";
 export default function AboutPage() {
   return (
     <>
-      <PageTitle title="About Next JS Todos" subTitle="Testing a subtitle" />
-      <p className="mb-4">This is part of a techincal take home challenge for a Front-end Developer role</p>
+      <PageTitle title="About Next JS Todos" subTitle="This is part of a techincal take home challenge for a Front-end Developer role" />
+      <p className="mb-4">Below is the outline that I was given:</p>
       <ol className="list-decimal list-inside">
         <li>Create User Authentication and their own TODOs</li>
         <li>Make Responsive view</li>
