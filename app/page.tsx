@@ -1,7 +1,8 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import TodoCalendar from "./components/TodoCalendar";
+import PageTitle from "./components/PageTitle";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -12,14 +13,10 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-5">NextJS Todos</h1>
+      <PageTitle title="Next JS Todos" subTitle="Testing a subtitle" />
 
       {session?.user ? (
         <>
-          <div className="flex align-center gap-5 mb-4">
-            <p>Signed in as {session.user.email}</p>
-            <button onClick={() => signOut()}>Sign Out</button>
-          </div>
           <TodoCalendar />
         </>
       ) : (

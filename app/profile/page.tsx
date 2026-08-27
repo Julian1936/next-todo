@@ -1,9 +1,10 @@
+import PageTitle from "../components/PageTitle";
 import ProfileForm from "../components/ProfileForm";
 
 export default function ProfilePage() {
   return (
     <>
-      <h1 className="text-2xl font-bold mb-5">Profile</h1>
+      <PageTitle title="User Profile Page" subTitle="Here you can update your first and last name" />
       <ProfileForm />
     </>
   );

@@ -12,10 +12,6 @@ interface Todo {
   createdAt?: string;
 }
 
-interface TodoCalendarProps {
-  refreshKey: number;
-}
-
 function fetchTodosRequest(): Promise<Todo[]> {
   return fetch("/api/todos").then((res) => {
     if (!res.ok) throw new Error("Request failed");
@@ -48,7 +44,7 @@ function buildMonthGrid(year: number, month: number): Date[] {
   return days;
 }
 
-export default function TodoCalendar({ refreshKey }: TodoCalendarProps) {
+export default function TodoCalendar() {
   const [todos, setTodos] = useState<Todo[] | null>(null);
   const [hasError, setHasError] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
@@ -79,7 +75,7 @@ export default function TodoCalendar({ refreshKey }: TodoCalendarProps) {
       .catch(() => {
         setHasError(true);
       });
-  }, [refreshKey]);
+  }, []);
 
   async function handleDelete(id: string) {
     setDeletingID(id);
@@ -153,7 +149,7 @@ export default function TodoCalendar({ refreshKey }: TodoCalendarProps) {
   return (
     <>
       <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <button onClick={goToPrevMonth} aria-label="Previous Month" className="border rounded px-2 py-1 text-sm hover:bg-gray-50">
               ‹
@@ -166,7 +162,7 @@ export default function TodoCalendar({ refreshKey }: TodoCalendarProps) {
           <button onClick={goToToday} className="text-sm border rounded px-2 py-1 hover:bg-gray-50">
             Today
           </button>
-          <button onClick={() => setIsAdding(true)} className="text-sm border rounded px-2 py-1 hover:bg-gray-50">
+          <button onClick={() => setIsAdding(true)} className="text-sm border rounded px-2 py-1 hover:bg-gray-50 ml-auto">
             Add Todo
           </button>
         </div>
