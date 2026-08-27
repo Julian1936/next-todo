@@ -16,10 +16,16 @@ interface EditTodoFormProps {
   onCancel?: () => void;
 }
 
+function toLocalDatetimeInputValue(isoString: string): string {
+  const date = new Date(isoString);
+  const localMs = date.getTime() - date.getTimezoneOffset() * 60000;
+  return new Date(localMs).toISOString().slice(0, 16);
+}
+
 export default function EditTodoForm({ todo, onSaved, onCancel }: EditTodoFormProps) {
   const [todoTitle, setTodoTitle] = useState(todo.todoTitle);
   const [todoDetails, setTodoDetails] = useState(todo.todoDetails ?? "");
-  const [todoBy, setTodoBy] = useState(todo.todoBy ? todo.todoBy.slice(0, 16) : "");
+  const [todoBy, setTodoBy] = useState(todo.todoBy ? toLocalDatetimeInputValue(todo.todoBy) : "");
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {

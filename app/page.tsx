@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <>
-      <PageTitle title="Next JS Todos" subTitle="Testing a subtitle" />
+      <PageTitle title={`${session?.user?.firstName ? `${session.user.firstName}'s` : ""} Next JS Todos`} subTitle="Testing a subtitle" />
 
       {session?.user ? (
         <>
