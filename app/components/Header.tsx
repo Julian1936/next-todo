@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import AuthButton from "./AuthButton";
+import { useSession } from "next-auth/react";
 
 export default function Header() {
+  const { data: session } = useSession();
   return (
     <>
       <header className="bg-gray-200 px-6 py-4 flex items-center justify-between">
@@ -11,8 +15,13 @@ export default function Header() {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/todos">ToDos</Link>
+              <Link href="/about">About</Link>
             </li>
+            {session?.user && (
+              <li>
+                <Link href="/profile">Profile</Link>
+              </li>
+            )}
           </ul>
         </nav>
         <div className="account-menu">

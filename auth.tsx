@@ -19,6 +19,8 @@ const GetUserByEmail = gql`
     user: todoUser(where: { email: $email }, stage: DRAFT) {
       id
       password
+      firstName
+      lastName
     }
   }
 `;
@@ -55,26 +57,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email,
             password: await hash(password, 12),
           });
-          return { id: newUser.id, email };
+          return { id: newUser.id, email, firstName: null, lastName: null };
         }
 
         const isValid = await compare(password, user.password);
         if (!isValid) return null;
 
-        return { id: user.id, email };
+        return { id: user.id, email, firstName: user.firstName ?? null, lastName: user.lastName ?? null };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
+        token.firstName = (user as any).firstName;
+        token.lastName = (user as any).lastName;
       }
+
+      if (trigger === "update" && session) {
+        token.firstName = session.firstName;
+        token.lastName = session.lastName;
+      }
+
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
+        (session.user as any).firstName = token.firstName as string | null;
+        (session.user as any).lastName = token.lastName as string | null;
       }
       return session;
     },
