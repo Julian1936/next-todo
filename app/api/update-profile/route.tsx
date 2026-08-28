@@ -16,6 +16,15 @@ const UpdateTodoUser = gql`
   }
 `;
 
+const PublishTodoUser = gql`
+  mutation PublishTodoUser($id: ID!) {
+    publishTodoUser(where: { id: $id }, to: PUBLISHED) {
+      id
+      stage
+    }
+  }
+`;
+
 export async function POST(req: NextRequest) {
   const session = await auth();
 
@@ -34,6 +43,8 @@ export async function POST(req: NextRequest) {
     firstName: firstName.trim(),
     lastName: lastName.trim(),
   });
+
+  await client.request(PublishTodoUser, { id: session.user.id });
 
   return NextResponse.json({ user: updateTodoUser });
 }
