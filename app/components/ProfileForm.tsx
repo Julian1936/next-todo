@@ -27,10 +27,10 @@ export default function ProfileForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 mb-10">
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row flex-wrap gap-2 mb-10">
       <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" className="border rounded px-3 py-2 flex-1" />
       <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" className="border rounded px-3 py-2 flex-1" />
-      <button type="submit" disabled={saving}>
+      <button type="submit" disabled={saving} className="border rounded px-2 py-1 hover:bg-gray-50 flex-1">
         {saving ? "Saving..." : "Save"}
       </button>
     </form>

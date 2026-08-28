@@ -12,7 +12,7 @@ export default function AuthButton() {
   if (session?.user) {
     return (
       <div className="flex items-center gap-2">
-        <p>Signed in as {session?.user?.firstName && session?.user?.lastName ? `${session.user.firstName} ${session.user.lastName}` : session?.user?.email}</p>
+        <p className="hidden sm:block">Signed in as {session?.user?.firstName && session?.user?.lastName ? `${session.user.firstName} ${session.user.lastName}` : session?.user?.email}</p>
         <button onClick={() => signOut()} className="text-sm border rounded px-2 py-1 hover:bg-gray-50">
           Sign Out
         </button>
