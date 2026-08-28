@@ -150,8 +150,8 @@ export default function TodoCalendar() {
   return (
     <>
       <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4 max-sm:flex-col max-sm:gap-2">
+          <div className="flex items-center gap-2 max-sm:w-full justify-between">
             <button onClick={goToPrevMonth} aria-label="Previous Month" className="border rounded px-2 py-1 text-sm hover:bg-gray-50">
               ‹
             </button>
@@ -160,10 +160,10 @@ export default function TodoCalendar() {
               ›
             </button>
           </div>
-          <button onClick={goToToday} className="text-sm border rounded px-2 py-1 hover:bg-gray-50">
+          <button onClick={goToToday} className="text-sm border rounded px-2 py-1 hover:bg-gray-50 max-sm:w-full ">
             Today
           </button>
-          <button onClick={() => setIsAdding(true)} className="text-sm border rounded px-2 py-1 hover:bg-gray-50 ml-auto">
+          <button onClick={() => setIsAdding(true)} className="text-sm border rounded px-2 py-1 hover:bg-gray-50 ml-auto max-sm:w-full ">
             Add Todo
           </button>
         </div>
@@ -182,7 +182,7 @@ export default function TodoCalendar() {
             const isToday = key === todayKey;
 
             return (
-              <div key={key} className={`min-h-24 bg-white p-1 flex flex-col gap-1 ${inCurrentMonth ? "" : "bg-gray-50 text-gray-400"}`}>
+              <div key={key} className={`min-h-12 sm:min-h-24 bg-white p-1 flex flex-col gap-1 ${inCurrentMonth ? "" : "bg-gray-50 text-gray-400"}`}>
                 <span className={`text-xs self-start px-1.5 rounded ${isToday ? "bg-blue-600 text-white font-semibold" : ""}`}>{day.getDate()}</span>
                 <div className="flex flex-col gap-1 overflow-y-auto">
                   {dayTodos.map((todo) => (
