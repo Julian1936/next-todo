@@ -22,7 +22,9 @@ export default function Home() {
       ) : (
         <>
           <p>Login to add and view current tasks</p>
-          <button onClick={() => signIn()}>Sign In</button>
+          <button onClick={() => signIn()} className="mt-5 border rounded px-2 py-1 hover:bg-gray-50">
+            Sign In
+          </button>
         </>
       )}
     </>
