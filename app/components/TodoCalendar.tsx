@@ -33,7 +33,7 @@ function buildMonthGrid(year: number, month: number): Date[] {
 
   const lastOfMonth = new Date(year, month + 1, 0);
   const endOffset = 6 - lastOfMonth.getDay();
-  const gridEnd = new Date(year, month + 1, lastOfMonth.getDate() + endOffset);
+  const gridEnd = new Date(year, month, lastOfMonth.getDate() + endOffset);
 
   const days: Date[] = [];
   const cursor = new Date(gridStart);
