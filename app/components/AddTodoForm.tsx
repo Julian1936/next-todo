@@ -38,7 +38,7 @@ export default function AddTodoForm({ onTodoAdded }: AddTodoFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2 mb-10">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
       <input value={todoTitle} onChange={(e) => setTodoTitle(e.target.value)} placeholder="Add a todo..." className="border rounded px-3 py-2 flex-1" />
       <textarea value={todoDetails} onChange={(e) => setTodoDetails(e.target.value)} placeholder="Details (optional)" className="border rounded px-3 py-2" rows={3} />
       <input type="datetime-local" value={todoBy} onChange={(e) => setTodoBy(e.target.value)} className="border rounded px-3 py-2" />
