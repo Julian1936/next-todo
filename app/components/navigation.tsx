@@ -12,7 +12,7 @@ export default function Navigation() {
           <Link href="/">Home</Link>
         </li>
         <li>
-          <Link href="/about">About</Link>
+          <Link href="/en/about">About</Link>
         </li>
         {session?.user && (
           <li>
