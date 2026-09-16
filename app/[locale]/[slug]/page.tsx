@@ -1,9 +1,17 @@
 import { notFound } from "next/navigation";
 import PageTitle from "@/app/components/PageTitle";
+import TodoCalendar from "@/app/components/TodoCalendar";
+import ProfileForm from "@/app/components/ProfileForm";
 import { hygraphFetch } from "@/app/lib/hygraph";
 import { GET_PAGE_QUERY, GET_ALL_PAGE_SLUGS_QUERY } from "@/app/lib/queries/getPage";
 
+const PAGE_COMPONENTS: Record<string, React.ComponentType> = {
+  cmu3y99qd3syb06mhhw6p0gqh: TodoCalendar, // Home page
+  cmu3vrbntzjbe06l0xatvtr6q: ProfileForm, // Profile page
+};
+
 interface PageEntry {
+  id: string;
   pageTitle: string;
   pageSubtitle: string;
   pageUrl: string;
@@ -57,10 +65,13 @@ export default async function CmsPage({ params }: { params: Promise<{ locale: st
     notFound();
   }
 
+  const ExtraComponent = PAGE_COMPONENTS[page.id];
+
   return (
     <>
       <PageTitle title={page.pageTitle} subTitle={page.pageSubtitle} />
       {page.pageContent?.html && <div className="prose" dangerouslySetInnerHTML={{ __html: page.pageContent.html }} />}
+      {ExtraComponent && <ExtraComponent />}
     </>
   );
 }

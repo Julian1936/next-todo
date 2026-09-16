@@ -1,24 +1,46 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
+interface NavPage {
+  id: string;
+  pageTitle: string;
+  pageUrl: string;
+}
 
 export default function Navigation() {
-  const { data: session } = useSession();
+  const pathname = usePathname();
+
+  const segments = pathname.split("/");
+  const currentLocale = segments[1] || "en";
+
+  const [navPages, setNavPages] = useState<NavPage[]>([]);
+
+  useEffect(() => {
+    let ignore = false;
+
+    fetch(`/api/nav-pages?locale=${currentLocale}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((pages) => {
+        if (!ignore && pages) setNavPages(pages);
+      })
+      .catch(() => {});
+
+    return () => {
+      ignore = true;
+    };
+  }, [currentLocale]);
+
   return (
     <nav>
       <ul className="flex items-center gap-3">
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/en/about">About</Link>
-        </li>
-        {session?.user && (
-          <li>
-            <Link href="/profile">Profile</Link>
+        {navPages.map((page) => (
+          <li key={page.id}>
+            <Link href={`/${currentLocale}/${page.pageUrl}`}>{page.pageTitle}</Link>
           </li>
-        )}
+        ))}
       </ul>
     </nav>
   );
