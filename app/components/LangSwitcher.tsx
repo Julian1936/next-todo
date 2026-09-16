@@ -4,8 +4,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const LOCALES = [
-  { code: "en", label: "EN" },
-  { code: "fr", label: "FR" },
+  { code: "en", label: "English" },
+  { code: "fr", label: "French" },
 ];
 
 interface SlugMapResult {
@@ -42,8 +42,6 @@ export default function LangSwitcher() {
     };
   }, [currentLocale, currentSlug]);
 
-  // Derive whether the fetched result is still relevant to the CURRENT page,
-  // rather than imperatively resetting state in the effect.
   const translatedSlugs = result && result.locale === currentLocale && result.slug === currentSlug ? result.map : null;
 
   function getHrefForLocale(targetLocale: string): string {
@@ -59,12 +57,12 @@ export default function LangSwitcher() {
   }
 
   return (
-    <div className="flex gap-2">
+    <select value={currentLocale} onChange={(e) => router.push(getHrefForLocale(e.target.value))} className="text-sm border rounded px-2 py-1">
       {LOCALES.map(({ code, label }) => (
-        <button key={code} onClick={() => router.push(getHrefForLocale(code))} disabled={code === currentLocale} className={code === currentLocale ? "font-bold underline" : "text-blue-600 hover:underline"}>
+        <option key={code} value={code}>
           {label}
-        </button>
+        </option>
       ))}
-    </div>
+    </select>
   );
 }
