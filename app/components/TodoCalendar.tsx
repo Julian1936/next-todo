@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo, useCallback } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import EditTodoForm from "./EditTodoForm";
 import AddTodoForm from "./AddTodoForm";
 
@@ -45,6 +46,9 @@ function buildMonthGrid(year: number, month: number): Date[] {
 }
 
 export default function TodoCalendar() {
+  const locale = useLocale();
+  const t = useTranslations("TodoCalendar");
+
   const [todos, setTodos] = useState<Todo[] | null>(null);
   const [hasError, setHasError] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
@@ -132,19 +136,21 @@ export default function TodoCalendar() {
   const isLoading = todos === null && !hasError;
 
   if (isLoading) {
-    return <p>Loading todos...</p>;
+    return <p>{t("loading")}</p>;
   }
 
   if (hasError) {
-    return <p>{"Couldn't load todos!"}</p>;
+    return <p>{t("loadError")}</p>;
   }
 
-  const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const WEEKDAY_LABELS = t.raw("weekdays") as string[];
 
-  const monthLabel = new Date(viewYear, viewMonth, 1).toLocaleDateString(undefined, {
+  const rawMonthLabel = new Date(viewYear, viewMonth, 1).toLocaleDateString(locale, {
     month: "long",
     year: "numeric",
   });
+  const monthLabel = rawMonthLabel.charAt(0).toUpperCase() + rawMonthLabel.slice(1);
+
   const todayKey = toDateKey(today);
 
   return (
@@ -161,10 +167,10 @@ export default function TodoCalendar() {
             </button>
           </div>
           <button onClick={goToToday} className="text-sm border rounded px-2 py-1 hover:bg-gray-50 max-sm:w-full ">
-            Today
+            {t("today")}
           </button>
           <button onClick={() => setIsAdding(true)} className="text-sm border rounded px-2 py-1 hover:bg-gray-50 ml-auto max-sm:w-full ">
-            Add Todo
+            {t("addTodo")}
           </button>
         </div>
 
@@ -225,13 +231,13 @@ export default function TodoCalendar() {
                   </button>
                 </div>
                 {selectedTodo.todoDetails && <p className="text-sm text-gray-600 mt-2">{selectedTodo.todoDetails}</p>}
-                {selectedTodo.todoBy && <p className="text-sm text-gray-500 mt-2">Due {new Date(selectedTodo.todoBy).toLocaleString()}</p>}
+                {selectedTodo.todoBy && <p className="text-sm text-gray-500 mt-2">{t("due", { date: new Date(selectedTodo.todoBy).toLocaleString(locale) })}</p>}
                 <div className="flex justify-end gap-2 mt-4">
                   <button onClick={() => setIsEditing(true)} className="text-sm border rounded px-2 py-1 hover:bg-gray-50">
-                    Edit
+                    {t("edit")}
                   </button>
                   <button onClick={() => handleDelete(selectedTodo.id)} disabled={deleteingId === selectedTodo.id} className="text-sm text-red-500 border rounded px-2 py-1 shrink-0">
-                    {deleteingId === selectedTodo.id ? "Deleting..." : "Delete"}
+                    {deleteingId === selectedTodo.id ? t("deleteing") : t("delete")}
                   </button>
                 </div>
               </>

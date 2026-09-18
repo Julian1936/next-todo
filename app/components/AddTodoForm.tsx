@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface AddTodoFormProps {
   onTodoAdded?: () => void;
 }
 
 export default function AddTodoForm({ onTodoAdded }: AddTodoFormProps) {
+  const t = useTranslations("TodoForm");
+
   const [todoTitle, setTodoTitle] = useState("");
   const [todoDetails, setTodoDetails] = useState("");
   const [todoBy, setTodoBy] = useState("");
@@ -39,13 +42,13 @@ export default function AddTodoForm({ onTodoAdded }: AddTodoFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-      <input value={todoTitle} onChange={(e) => setTodoTitle(e.target.value)} placeholder="Add a todo..." className="border rounded px-3 py-2 flex-1" />
-      <textarea value={todoDetails} onChange={(e) => setTodoDetails(e.target.value)} placeholder="Details (optional)" className="border rounded px-3 py-2" rows={3} />
+      <input value={todoTitle} onChange={(e) => setTodoTitle(e.target.value)} placeholder={t("addTodoPlaceholder")} className="border rounded px-3 py-2 flex-1" />
+      <textarea value={todoDetails} onChange={(e) => setTodoDetails(e.target.value)} placeholder={t("detailsPlaceholder")} className="border rounded px-3 py-2" rows={3} />
       <input type="datetime-local" value={todoBy} onChange={(e) => setTodoBy(e.target.value)} className="border rounded px-3 py-2" />
       <button type="submit" disabled={status === "loading"} className="border rounded px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 cursor-pointer">
-        {status === "loading" ? "Adding..." : "Add"}
+        {status === "loading" ? t("adding") : t("addTodo")}
       </button>
-      {status === "error" && <p className="text-red-500 text-sm">Something went wrong.</p>}
+      {status === "error" && <p className="text-red-500 text-sm">{t("somethingWentWrong")}</p>}
     </form>
   );
 }

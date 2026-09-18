@@ -1,0 +1,33 @@
+{
+  "TodoCalendar": {
+    "loading": "Loading todos...",
+    "loadError": "Couldn't load todos!",
+    "today": "Today",
+    "addTodo": "Add Todo",
+    "addTodoTitle": "Add a todo",
+    "close": "Close",
+    "due": "Due {date}",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  "TodoForm": {
+    "addTodo": "Add Todo",
+    "adding": "Adding...",
+    "addTodoPlaceholder": "Add a todo...",
+    "detailsPlaceholder": "Details (optional)",
+    "somethingWentWrong": "Something went wrong."
+  },
+  "TodoEditForm": {
+    "saveTodo": "Save",
+    "savingTodo": "Saving...",
+    "cancel": "Cancel"
+  },
+  "ProfileForm": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "saveProfile": "Save",
+    "savingProfile": "Saving..."
+  }
+}

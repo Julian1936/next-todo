@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface Todo {
   id: string;
@@ -23,6 +24,8 @@ function toLocalDatetimeInputValue(isoString: string): string {
 }
 
 export default function EditTodoForm({ todo, onSaved, onCancel }: EditTodoFormProps) {
+  const t = useTranslations("TodoEditForm");
+
   const [todoTitle, setTodoTitle] = useState(todo.todoTitle);
   const [todoDetails, setTodoDetails] = useState(todo.todoDetails ?? "");
   const [todoBy, setTodoBy] = useState(todo.todoBy ? toLocalDatetimeInputValue(todo.todoBy) : "");
@@ -62,10 +65,10 @@ export default function EditTodoForm({ todo, onSaved, onCancel }: EditTodoFormPr
         <input type="datetime-local" value={todoBy} onChange={(e) => setTodoBy(e.target.value)} className="border rounded px-3 py-2" />
         <div className="flex gap-2">
           <button type="submit" disabled={status === "loading"} className="border rounded px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 flex-1">
-            {status === "loading" ? "Saving..." : "Save"}
+            {status === "loading" ? t("savingTodo") : t("saveTodo")}
           </button>
           <button type="button" onClick={onCancel} className="border rounded px-4 py-2 hover:bg-gray-50">
-            Cancel
+            {t("cancel")}
           </button>
         </div>
         {status === "error" && <p className="text-red-500 text-sm">Something went wrong.</p>}

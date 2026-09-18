@@ -1,0 +1,33 @@
+{
+  "TodoCalendar": {
+    "loading": "Chargement des tâches...",
+    "loadError": "Impossible de charger les tâches !",
+    "today": "Aujourd'hui",
+    "addTodo": "Ajouter une tâche",
+    "addTodoTitle": "Ajouter une tâche",
+    "close": "Fermer",
+    "due": "Échéance {date}",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "deleting": "Suppression...",
+    "weekdays": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"]
+  },
+  "TodoForm": {
+    "addTodo": "Ajouter",
+    "adding": "Ajout...",
+    "addTodoPlaceholder": "Ajouter une tâche...",
+    "detailsPlaceholder": "Détails (facultatif)",
+    "somethingWentWrong": "Une erreur s'est produite."
+  },
+  "TodoEditForm": {
+    "saveTodo": "Enregistrer",
+    "savingTodo": "Enregistrement...",
+    "cancel": "Annuler"
+  },
+  "ProfileForm": {
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "saveProfile": "Enregistrer",
+    "savingProfile": "Enregistrement..."
+  }
+}
