@@ -24,5 +24,9 @@ export default function AuthButton() {
     );
   }
 
-  return <button onClick={() => signIn()}>{t("signInButton")}</button>;
+  return (
+    <button onClick={() => signIn()} className="text-sm border rounded px-2 py-1 hover:bg-gray-50">
+      {t("signInButton")}
+    </button>
+  );
 }
