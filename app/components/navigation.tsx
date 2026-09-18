@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -11,6 +12,8 @@ interface NavPage {
 }
 
 export default function Navigation() {
+  const { data: session } = useSession();
+
   const pathname = usePathname();
 
   const segments = pathname.split("/");
@@ -33,10 +36,12 @@ export default function Navigation() {
     };
   }, [currentLocale]);
 
+  const visibleNavPages = session?.user ? navPages : navPages.slice(0, -1);
+
   return (
     <nav>
       <ul className="flex items-center gap-3">
-        {navPages.map((page) => (
+        {visibleNavPages.map((page) => (
           <li key={page.id}>
             <Link href={`/${currentLocale}/${page.pageUrl}`}>{page.pageTitle}</Link>
           </li>
