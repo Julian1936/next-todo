@@ -1,4 +1,13 @@
 {
+  "HeaderLogin": {
+    "signInButton": "Sign In",
+    "signOutButton": "Sign Out",
+    "loggedInMessage": "Signed in as"
+  },
+  "HomePageLogin": {
+    "loginMessage": "Login to add and view current tasks",
+    "signInButton": "Sign In"
+  },
   "TodoCalendar": {
     "loading": "Loading todos...",
     "loadError": "Couldn't load todos!",

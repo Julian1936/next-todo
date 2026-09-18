@@ -1,4 +1,13 @@
 {
+  "HeaderLogin": {
+    "signInButton": "Se connecter",
+    "signOutButton": "Se déconnecter",
+    "loggedInMessage": "Connecté en tant que"
+  },
+  "HomePageLogin": {
+    "loginMessage": "Connectez-vous pour ajouter et consulter les tâches en cours",
+    "signInButton": "Se connecter"
+  },
   "TodoCalendar": {
     "loading": "Chargement des tâches...",
     "loadError": "Impossible de charger les tâches !",

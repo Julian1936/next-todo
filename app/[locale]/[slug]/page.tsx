@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import PageTitle from "@/app/components/PageTitle";
-import TodoCalendar from "@/app/components/TodoCalendar";
+import HomeTodoSection from "@/app/components/HomePageTodoSection";
 import ProfileForm from "@/app/components/ProfileForm";
 import { hygraphFetch } from "@/app/lib/hygraph";
 import { GET_PAGE_QUERY, GET_ALL_PAGE_SLUGS_QUERY } from "@/app/lib/queries/getPage";
 
 const PAGE_COMPONENTS: Record<string, React.ComponentType> = {
-  cmu3y99qd3syb06mhhw6p0gqh: TodoCalendar, // Home page
+  cmu3y99qd3syb06mhhw6p0gqh: HomeTodoSection, // Home page
   cmu3vrbntzjbe06l0xatvtr6q: ProfileForm, // Profile page
 };
 
